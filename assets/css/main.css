@@ -14,3 +14,47 @@ body{
     margin:0;
     padding:0;
 }
+#buttons{
+    padding: 1rem;
+    position: fixed;
+    top:0; right:0;
+    z-index: 100;
+}
+
+
+.notifyjs-corner {
+    margin: 5px;
+    position: fixed;
+    z-index: 1050;
+}
+.notifyjs-corner .notifyjs-wrapper, .notifyjs-corner .notifyjs-container {
+    display: block;
+    height: inherit;
+    margin: 3px;
+    position: relative;
+    width: inherit;
+}
+.notifyjs-wrapper {
+    display: inline-block;
+    height: 0;
+    position: absolute;
+    width: 0;
+    z-index: 1;
+}
+.notifyjs-container {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+.notifyjs-hidable {
+    cursor: pointer;
+}
+[data-notify-text], [data-notify-html] {
+    position: relative;
+}
+.notifyjs-arrow {
+    height: 0;
+    position: absolute;
+    width: 0;
+    z-index: 2;
+}
