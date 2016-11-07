@@ -16,15 +16,12 @@ var BFabricPolygon = (function(){
         self.activeLine = null;
         self.activeShape = false;
         self.canvas = options.canvas;
-        
-        self.viewerRatio = 1;//This ratio will be multiplied by some number to get forexample strokeWidth or circle radius etc.
 
         self.BLineInit(self);
-        self.BRectInit(self);
         
-        self.strokeWidthLine = 50;
-        self.strokeWidthCircle = 10;
-        self.circlePointRadius = 50;
+        self.strokeWidthLine = 10;
+        self.strokeWidthCircle = 1;
+        self.circlePointRadius = 30;
 
         if(jQuery && jQuery().notify){
             var notify_defaults = { autoHideDelay: 2000, globalPosition: 'bottom left' };
@@ -66,61 +63,18 @@ var BFabricPolygon = (function(){
     };
     BFabricPolygon.prototype.BLineInit = function(self){
         self.BLine = fabric.util.createClass(fabric.Line, {
-            type:'BLine', strokeWidthBase : 10,
-            setStroke: function(){
-                var self2 = this;
-                var strokeWidth = self2.strokeWidthBase / self.viewerRatio;
-//                console.log(self2.strokeWidthBase.toString()+' '+self.viewerRatio.toString()+' '+strokeWidth.toString());
-                self2.set( { strokeWidth: strokeWidth } );
-            },
+            type:'BLine',
             initialize:function(options, properties){
 		options || (options={ });
                 var self2 = this;
                 self2.callSuper('initialize', options);
-                self2.setStroke();
                 self2.set(properties);
             },
             _render: function(ctx){
                 var self2 = this;
                 self2.callSuper('_render', ctx);
-                self2.setStroke();
             }
         });
-    };
-    BFabricPolygon.prototype.BRectInit = function(self){
-        self.BRect = fabric.util.createClass(fabric.Rect, {
-            type:'BRect', widthBase : 500, heightBase: 100, leftBase: 300, topBase:200,
-            bSetSizes: function(){
-                var self2 = this;
-                var top = self2.topBase / self.viewerRatio;
-                var left = self2.leftBase / self.viewerRatio;
-                var width = self2.widthBase / self.viewerRatio;
-                var height = self2.heightBase / self.viewerRatio;
-                var prop = { top:top, left:left, width:width, height:height };
-                self2.set(prop);
-            },
-            initialize:function(options){
-		options || (options={ });
-                var self2 = this;
-                self2.callSuper('initialize', options);
-                self2.bSetSizes();
-            },
-            _render: function(ctx){
-                var self2 = this;
-                self2.callSuper('_render', ctx);
-                self2.bSetSizes();
-            }
-        });
-    };
-    BFabricPolygon.prototype.createBRect = function(){
-        var self = this;
-        var brect = new self.BRect({
-            fill:'#ff0000',
-            originX:'left',
-            originY:'top'
-        });
-        self.canvas.add(brect);
-        self.canvas.renderAll();
     };
     BFabricPolygon.prototype.drawPolygon = function(){
         var self = this;
@@ -167,7 +121,8 @@ var BFabricPolygon = (function(){
             selectable: false,
             hasBorders: false,
             hasControls: false,
-            evented: false
+            evented: false,
+            strokeWidth: self.strokeWidthLine
         });
         self.activeLine = line;
         //BEGIN DRAWING POLIGON BASED ON THE POINTS DEFINED=====================
@@ -194,7 +149,7 @@ var BFabricPolygon = (function(){
             });//Add new point based on the click coordinate
             var polygon = new fabric.Polygon(points,{ 
                 stroke:'#333333',
-                strokeWidth:50,
+                strokeWidth: self.strokeWidthLine,
                 fill: '#cccccc', 
                 opacity: 0.1,
                 selectable: false,
@@ -254,7 +209,7 @@ var BFabricPolygon = (function(){
 
         var polygon = new fabric.Polygon(points,{//Redraw polygon based on helper points coordinate ( the one previously deleted )
             stroke:'#333333',
-            strokeWidth:0.5,
+            strokeWidth: self.strokeWidthLine,
             fill: 'red', 
             opacity: 1,
             hasBorders: false,

@@ -12,19 +12,16 @@ and open the template in the editor.
         
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="assets/bootstrap-toggle/bootstrap-toggle.min.css">
         <link rel="stylesheet" href="assets/css/main.css" >
     </head>
     <body>
         <div id="osd1"></div>
+        <div id="bcanvas"></div>
         <div id="buttons">
             <div class="btn btn-primary" onclick="OBFabricPolygon.drawPolygon()"><span class="glyphicon glyphicon-pencil"></span> Draw</div>
-            <input class="maintain_line_check" checked="" data-toggle="toggle" type="checkbox" onchange="OBIQApp.maintainFabricSizes(this)">Maintain Line
-            <div class="btn btn-primary" onclick="OBIQApp.zoomActual()">Zoom 1:1</div>
         </div>
         
         <script src="assets/js/jquery-1.11.2.min.js"></script>
-        <script src="assets/bootstrap-toggle/bootstrap-toggle.min.js"></script>
         <script src="assets/js/notify.min.js"></script>
         <script src="assets/js/osd/openseadragon.js"></script>
         <script src="assets/js/osd/openseadragon-fabricjs-overlay.js"></script>
