@@ -2,7 +2,7 @@ var BFabricPolygon = (function(){
     "use strict";
     /**
      * 
-     * @param {Object} options { canvas: reference_fabric_canvas }
+     * @param {String} options { canvas_id: canvas id attribute }
      * @returns {BFabricPolygon}
      */
     var BFabricPolygon = function( options ){
@@ -15,7 +15,21 @@ var BFabricPolygon = (function(){
         self.lineArray = new Array();
         self.activeLine = null;
         self.activeShape = false;
-        self.canvas = options.canvas;
+
+        self.canvas = new fabric.Canvas(options.canvas_drawing);
+        
+        window.addEventListener('resize', resizeCanvas, false);
+
+        function resizeCanvas() {
+            self.canvas.setHeight(window.innerHeight);
+            self.canvas.setWidth(window.innerWidth);
+            self.canvas.renderAll();
+        }
+        // resize on init
+        resizeCanvas();
+        
+        self.canvas_target = options.canvas_target;
+        self.osd_viewer = options.osd_viewer;
 
         self.BLineInit(self);
         
@@ -23,12 +37,45 @@ var BFabricPolygon = (function(){
         self.strokeWidthCircle = 1;
         self.circlePointRadius = 30;
 
-        if(jQuery && jQuery().notify){
+        if($.notify){
             var notify_defaults = { autoHideDelay: 2000, globalPosition: 'bottom left' };
-            jQuery.notify.defaults(notify_defaults);
+            $.notify.defaults(notify_defaults);
         }
 
+        self.lastMouseDownPos = {x:0, y:0};
+        self.cursor = {
+            lastState : '',//down, up, move
+            lastDownPos : {x:0, y:0}
+        };
+        $('.canvas-container').click(function(e){
+//            console.log(e);
+//            $('#osd1').click(e);
+self.osd_viewer.raiseEvent('canvas-click', e);
+            
+            $('#osd1').trigger('click', e);
+        });
         self.canvas.on('mouse:down', function ( event ) {
+            self.cursor.lastState = 'down';
+            
+//            self.osd_viewer.raiseEvent('canvas-click', event);
+            
+            var pointer = self.canvas.getPointer( event.e );
+            console.log(event);
+            self.cursor.lastDownPos.x = pointer.x;
+            self.cursor.lastDownPos.y = pointer.y;
+        });
+        
+        self.canvas.on('mouse:up', function ( event ) {
+            self.cursor.lastState = 'up';
+            var pointer = self.canvas.getPointer( event.e );
+            var deltaX = Math.abs( self.cursor.lastDownPos.x - pointer.x );
+            var deltaY = Math.abs( self.cursor.lastDownPos.y - pointer.y );
+            var deltaMax = 5;
+            
+            if( ( deltaY > deltaMax ) || ( deltaX > deltaMax ) ){//No drawing if cursor/pointer to far from the 'mouse:down' point coordinate
+                return;
+            }
+            
             if( event.target && event.target.id === self.pointArray[0].id ){// if back to starting point=========
                 self.generatePolygon( self.pointArray );
             }else if(self.polygonMode){
@@ -36,11 +83,8 @@ var BFabricPolygon = (function(){
             }
         });
         
-        self.canvas.on('mouse:up', function (options) {
-
-        });
-        
         self.canvas.on('mouse:move', function (options) {
+            self.cursor.lastState = 'move';
             if(self.activeLine === null){return;}
     //            console.log(prototypefabric.activeLine);
     //            console.log(prototypefabric.activeLine.class);
