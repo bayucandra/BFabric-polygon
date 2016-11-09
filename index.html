@@ -4,29 +4,66 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html ng-app="BNgApp">
     <head>
         <title>Merger poligonal fabric.js w OSD</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="assets/js/angular/angular-material/angular-material.min.css">
+        <link rel="stylesheet" href="assets/js/angular/angular-ui-notification/angular-ui-notification.min.css">
         <link rel="stylesheet" href="assets/css/main.css" >
+        
+        <script src="assets/js/angular/angular.min.js"></script>
     </head>
-    <body>
+    <body ng-controller="BCtrlMain" ng-cloack>
         <div id="osd1"></div>
-        <!--<canvas id="bcanvas"></canvas>-->
-        <div id="buttons">
-            <div class="btn btn-primary" onclick="OBFabricPolygon.drawPolygon()"><span class="glyphicon glyphicon-pencil"></span> Draw</div>
+        <canvas id="bcanvas"></canvas>
+        <div style='position:fixed; top:0; left:0;width:100%;'>
+            <md-toolbar style="height:50px; min-height:50px;">
+                <div class="md-toolbar-tools" style="height:50px; min-height:50px;">
+                    <md-button class="md-icon-button" aria-label="Menu">
+                        <md-icon md-svg-icon="main:menu"></md-icon>
+                    </md-button>
+                    
+                    <md-button ng-click="drawPolygon()">
+                        <md-icon md-svg-icon="crud:update" aria-label="Draw"></md-icon>
+                        Draw
+                    </md-button>
+                    
+                    <md-button ng-click="dialogForCreate($event)">
+                        <md-icon md-svg-icon="main:dialog" aria-label="Dialog new"></md-icon>
+                        Dialog for create
+                    </md-button>
+                    
+                    <md-button ng-click="dialogForUpdate($event)">
+                        <md-icon md-svg-icon="main:dialog" aria-label="Dialog update"></md-icon>
+                        Dialog update
+                    </md-button>
+                </div>
+            </md-toolbar>
         </div>
         
         <script src="assets/js/jquery-1.11.2.min.js"></script>
-        <script src="assets/js/notify.min.js"></script>
+        
+        <script src="assets/js/angular/angular-animate/angular-animate.min.js"></script>
+        <script src="assets/js/angular/angular-aria/angular-aria.min.js"></script>
+        <script src="assets/js/angular/angular-messages/angular-messages.min.js"></script>
+        <script src="assets/js/angular/angular-material/angular-material.min.js"></script>
+        <script src="assets/js/angular/angular-ui-notification/angular-ui-notification.min.js"></script>
+        <script src="assets/js/angular/angular-loading-overlay.js"></script>
+        
         <script src="assets/js/osd/openseadragon.js"></script>
         <script src="assets/js/osd/openseadragon-fabricjs-overlay.js"></script>
         <script src="assets/js/fabric.js"></script>
         <script src="assets/js/bfabric-polygon.js"></script>
         <script src="assets/js/app.js"></script>
+        
+        <script src="assets/js/b-module/serviceOSD.js"></script>
+        <script src="assets/js/b-module/servicePolygon.js"></script>
+        <script src="assets/js/b-module/serviceDialog.js"></script>
+        
+        <script src="assets/js/b-module/mdIconProvider.js"></script>
+        <script src="assets/js/b-module/templateRequest.js"></script>
     </body>
 </html>

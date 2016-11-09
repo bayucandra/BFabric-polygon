@@ -1,0 +1,32 @@
+<!-- Template dialog -->
+<md-dialog id="dialog-input" aria-label="Dialog input" class="bs-loading-container bdialog"
+             bs-loading-overlay="dialog-input" bs-loading-overlay-template-url="assets/js/b-template/loading-overlay.html" 
+             bs-loading-overlay-delay="2000"
+             ng-style="Bstyle">
+    <form name="bForm" ng-submit="submit(bForm)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{title}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="assets/img/ui/24/destroy.svg" aria-label="Close dialog"></md-icon> 
+                </md-button> 
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-content layout-padding>
+                <md-input-container class="md-block" flex>
+                    <label>Input text</label>
+                    <input name="input_text" type="text" md-autofocus required ng-model="input.text"/>
+                    <div ng-messages="bForm.input_text.$error"> 
+                        <div ng-message="required">Input is required.</div> 
+                    </div> 
+                </md-input-container>
+            </md-content>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <span flex></span>
+            <md-button type="submit" class="md-primary">Try Submit / Enter</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

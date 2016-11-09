@@ -5,8 +5,10 @@ var BFabricPolygon = (function(){
      * @param {String} options { canvas_id: canvas id attribute }
      * @returns {BFabricPolygon}
      */
-    var BFabricPolygon = function( options ){
+    var BFabricPolygon = function( options, Notification ){
         var self = this;
+        
+        self.Notification = Notification;
 
         self.min = 99;
         self.max = 999999;
@@ -37,10 +39,10 @@ var BFabricPolygon = (function(){
         self.strokeWidthCircle = 1;
         self.circlePointRadius = 30;
 
-        if($.notify){
-            var notify_defaults = { autoHideDelay: 2000, globalPosition: 'bottom left' };
-            $.notify.defaults(notify_defaults);
-        }
+//        if($.notify){
+//            var notify_defaults = { autoHideDelay: 2000, globalPosition: 'bottom left' };
+//            $.notify.defaults(notify_defaults);
+//        }
 
         self.lastMouseDownPos = {x:0, y:0};
         self.cursor = {
@@ -50,7 +52,7 @@ var BFabricPolygon = (function(){
         $('.canvas-container').click(function(e){
 //            console.log(e);
 //            $('#osd1').click(e);
-self.osd_viewer.raiseEvent('canvas-click', e);
+//self.osd_viewer.raiseEvent('canvas-click', e);
             
             $('#osd1').trigger('click', e);
         });
@@ -60,7 +62,7 @@ self.osd_viewer.raiseEvent('canvas-click', e);
 //            self.osd_viewer.raiseEvent('canvas-click', event);
             
             var pointer = self.canvas.getPointer( event.e );
-            console.log(event);
+//            console.log(event);
             self.cursor.lastDownPos.x = pointer.x;
             self.cursor.lastDownPos.y = pointer.y;
         });
@@ -126,7 +128,7 @@ self.osd_viewer.raiseEvent('canvas-click', e);
         self.pointArray = new Array();
         self.lineArray = new Array();
         self.activeLine = null;
-        self.notify("Start drawing polygon","success");
+        self.Notification("Start drawing polygon","success");
     };
     BFabricPolygon.prototype.addPoint = function(event){
         var self = this;
